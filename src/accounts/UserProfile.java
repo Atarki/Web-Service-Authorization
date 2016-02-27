@@ -1,9 +1,22 @@
 package accounts;
 
 public class UserProfile {
-    private final String login;
-    private final String pass;
-    private final String email;
+    private  String login;
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    private  String pass;
+    private  String email;
 
     public UserProfile(String login, String pass, String email) {
         this.login = login;
@@ -27,5 +40,14 @@ public class UserProfile {
 
     public String getEmail() {
         return email;
+    }
+
+    @Override
+    public String toString() {
+        return "UserProfile{" +
+                "login='" + login + '\'' +
+                ", pass='" + pass + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

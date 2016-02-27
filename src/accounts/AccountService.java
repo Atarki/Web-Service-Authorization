@@ -20,6 +20,15 @@ public class AccountService {
         return loginToProfile.get(login);
     }
 
+    public void updateUser(UserProfile userProfile) {
+        for (Map.Entry<String, UserProfile> entry : loginToProfile.entrySet()) {
+            String key = entry.getKey();
+            if (key.equals(userProfile.getLogin())) {
+                loginToProfile.replace(key, userProfile);
+            }
+        }
+    }
+
     public UserProfile getUserBySessionId(String sessionId) {
         return sessionIdToProfile.get(sessionId);
     }
@@ -30,5 +39,9 @@ public class AccountService {
 
     public void deleteSession(String sessionId) {
         sessionIdToProfile.remove(sessionId);
+    }
+
+    public void deleteUser(String user) {
+        loginToProfile.remove(user);
     }
 }

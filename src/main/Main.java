@@ -16,14 +16,14 @@ public class Main {
         AccountService accountService = new AccountService();
 
         accountService.addNewUser(new UserProfile("admin"));
-        accountService.addNewUser(new UserProfile("Test"));
+        accountService.addNewUser(new UserProfile("TestUser"));
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(new UsersServlet(accountService)), "/users");
         context.addServlet(new ServletHolder(new SessionsServlet(accountService)), "/sessions");
 
         ResourceHandler resource_handler = new ResourceHandler();
-        resource_handler.setResourceBase("templates/lab2/public");
+        resource_handler.setResourceBase("src/public");
 
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[]{resource_handler, context});
@@ -33,5 +33,21 @@ public class Main {
 
         server.start();
         server.join();
+
+
+/*
+        Configuration configuration = new Configuration();
+        configuration.configure();
+
+        ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
+        SessionFactory ourSessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+        Session session = ourSessionFactory.openSession();
+        session.beginTransaction();
+        session.save(user1);
+        session.save(user2);
+        session.save(user3);
+        session.getTransaction().commit();
+        session.close();*/
     }
 }
