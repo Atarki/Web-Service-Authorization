@@ -25,8 +25,7 @@ public class SessionsServlet extends HttpServlet {
             response.setContentType("text/html;charset=utf-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } else {
-            Gson gson = new Gson();
-            String json = gson.toJson(profile);
+            String json = getJsonString(profile);
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().println(json);
             response.setStatus(HttpServletResponse.SC_OK);
@@ -52,8 +51,7 @@ public class SessionsServlet extends HttpServlet {
         }
 
         accountService.addSession(request.getSession().getId(), profile);
-        Gson gson = new Gson();
-        String json = gson.toJson(profile);
+        String json = getJsonString(profile);
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().println(json);
         response.setStatus(HttpServletResponse.SC_OK);
@@ -73,5 +71,10 @@ public class SessionsServlet extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_OK);
         }
 
+    }
+
+    private String getJsonString(UserProfile profile) {
+        Gson gson = new Gson();
+        return gson.toJson(profile);
     }
 }

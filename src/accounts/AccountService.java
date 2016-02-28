@@ -21,10 +21,17 @@ public class AccountService {
     }
 
     public void updateUser(UserProfile userProfile) {
+
         for (Map.Entry<String, UserProfile> entry : loginToProfile.entrySet()) {
             String key = entry.getKey();
             if (key.equals(userProfile.getLogin())) {
                 loginToProfile.replace(key, userProfile);
+            }
+        }
+        for (Map.Entry<String, UserProfile> entry : sessionIdToProfile.entrySet()) {
+            String key = entry.getKey();
+            if (key.equals(userProfile.getLogin())) {
+                sessionIdToProfile.replace(key, userProfile);
             }
         }
     }
