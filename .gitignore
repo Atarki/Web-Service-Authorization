@@ -3,8 +3,8 @@
 
 ### Windows ###
 # Windows image file caches
-Thumbs.db
-ehthumbs.db
+Thumbs.main.java.com.study.userStore.dao
+ehthumbs.main.java.com.study.userStore.dao
 
 # Folder config file
 Desktop.ini
@@ -71,7 +71,9 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
-
 #
 /lib
-*.jar
+sqlite-jdbc-3.8.11.2
+/target
+*.db
+*.dao
