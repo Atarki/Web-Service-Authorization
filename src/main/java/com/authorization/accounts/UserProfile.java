@@ -2,19 +2,6 @@ package com.authorization.accounts;
 
 public class UserProfile {
     private  String login;
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     private  String pass;
     private  String email;
 
@@ -28,6 +15,18 @@ public class UserProfile {
         this.login = login;
         this.pass = login;
         this.email = login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPass(String pass) {
+        this.pass = pass;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getLogin() {

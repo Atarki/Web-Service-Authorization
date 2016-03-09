@@ -22,18 +22,16 @@ public class UsersServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserProfile profile = accountService.getUserByLogin(request.getParameter("login"));
         UserProfile userBySessionId = accountService.getUserBySessionId(request.getRequestedSessionId());
-        if ((profile.getLogin()).equals("admin")
-                ||(profile.getPass()).equals("admin")
-                ||(profile.getEmail()).equals("admin") ) {
 
-            String json = getJsonString(userBySessionId);
+        if (userBySessionId.getLogin().isEmpty()) {
+            response.setContentType("text/html;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } else {
+            String json = getJsonString(profile);
 
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().println(json);
             response.setStatus(HttpServletResponse.SC_OK);
-        } else {
-            response.setContentType("text/html;charset=utf-8");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
 
@@ -51,18 +49,17 @@ public class UsersServlet extends HttpServlet {
 
         UserProfile newUser = new UserProfile(login, pass, email);
         accountService.addNewUser(newUser);
-        accountService.addSession(request.getSession().getId(),newUser);
+        accountService.addSession(request.getRequestedSessionId(), newUser);
 
         String json = getJsonString(newUser);
 
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().println(json);
-        response.setStatus(HttpServletResponse.SC_OK);;
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     //change profile
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        UserProfile userProfile = accountService.getUserByLogin(request.getParameter("login"));
         UserProfile userBySessionId = accountService.getUserBySessionId(request.getRequestedSessionId());
 
         userBySessionId.setLogin(request.getParameter("login"));
@@ -75,18 +72,24 @@ public class UsersServlet extends HttpServlet {
 
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().println(json);
-        response.setStatus(HttpServletResponse.SC_OK);;
+        response.setStatus(HttpServletResponse.SC_OK);
     }
 
     //unregister
     public void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String user = request.getParameter("login");
         String sessionId = request.getRequestedSessionId();
+
+        if (user.isEmpty()) {
+            response.setContentType("text/html;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return;
+        }
         accountService.deleteSession(sessionId);
         accountService.deleteUser(user);
 
         response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_GONE);;
+        response.setStatus(HttpServletResponse.SC_OK);
 
         String result = String.format("User %s was deleted.", user);
         response.getWriter().println(result);
@@ -94,8 +97,8 @@ public class UsersServlet extends HttpServlet {
         System.out.println(result);
     }
 
-    private String getJsonString(UserProfile sessionId) {
+    private String getJsonString(UserProfile userProfile) {
         Gson gson = new Gson();
-        return gson.toJson(sessionId);
+        return gson.toJson(userProfile);
     }
 }

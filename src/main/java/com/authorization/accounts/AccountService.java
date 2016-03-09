@@ -21,7 +21,6 @@ public class AccountService {
     }
 
     public void updateUser(UserProfile userProfile) {
-
         for (Map.Entry<String, UserProfile> entry : loginToProfile.entrySet()) {
             String key = entry.getKey();
             if (key.equals(userProfile.getLogin())) {
